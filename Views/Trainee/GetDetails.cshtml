@@ -1,0 +1,74 @@
+﻿@model TraineeCrsDetails
+
+<h1 class="mb-4 text-center">Trainee</h1>
+
+<div class="card mb-4 shadow-lg">
+    <div class="card-header bg-black text-white">
+        <h5 class="mb-0">Trainee Information</h5>
+    </div>
+    <div class="card-body">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center">
+                <img src="@(string.IsNullOrEmpty(Model.image) || !Model.image.Contains("images") ? Url.Content("~/images/default-avatar.png") : Model.image)"
+                     alt="Trainee Image"
+                     class="img-fluid rounded-circle shadow-sm"
+                     style="max-width: 120px; height: auto;" />
+            </div>
+            <div class="col-md-8">
+                <div class="mb-2">
+                    <p class="h6"><strong>ID:</strong> <span class="text-muted">@Model.id</span></p>
+                </div>
+                <div class="mb-2">
+                    <p class="h6"><strong>Name:</strong> <span class="text-muted">@Model.name</span></p>
+                </div>
+                <div class="mb-2">
+                    <p class="h6"><strong>Address:</strong> <span class="text-muted">@Model.address</span></p>
+                </div>
+                <div class="mb-2">
+                    <p class="h6"><strong>Department ID:</strong> <span class="text-muted">@Model.departmentId</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="mt-5 mb-4 text-center">Trainee Courses</h3>
+
+<div class="row">
+    @foreach (var crsresult in Model.crsResults)
+    {
+        if (crsresult.course != null && crsresult.trainee != null)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm border border-light">
+                    <div class="card-header bg-secondary text-white">
+                        <!-- Changed to bg-secondary -->
+                        <h5 class="mb-0">@crsresult.course?.name</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text"><strong>Trainee Degree:</strong> @crsresult.degree</p>
+                        <p class="card-text">
+                            <strong>Status:</strong>
+                            @if (crsresult.degree >= crsresult.course?.minDegree)
+                            {
+                                <span class="badge bg-success">Success</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Failed</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<div class="form-group mt-4 text-center">
+    <a asp-action="Add" asp-controller="TraineeCourseResult" asp-route-id="@Model.id" class="btn btn-primary btn-lg">Register Course</a>
+</div>
+
+<div class="mt-4 d-flex justify-content-center">
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
