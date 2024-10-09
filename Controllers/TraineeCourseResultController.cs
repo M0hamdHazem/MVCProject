@@ -36,5 +36,14 @@ namespace MvcDay2Task.Controllers
             traineeCrsResultRepository.SaveChanges();
             return RedirectToAction("GetDetails", "Trainee", new { id = id });
         }
+
+        public IActionResult Delete(int courseid,int traineeId)
+        {
+            CrsResult crsResult = traineeCrsResultRepository.GetById(courseid);
+            traineeCrsResultRepository.Delete(crsResult);
+            traineeCrsResultRepository.SaveChanges();
+
+            return RedirectToAction("GetDetails", "Trainee", new { id = traineeId });
+        }
     }
 }
